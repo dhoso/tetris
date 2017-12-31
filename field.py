@@ -1,3 +1,5 @@
+import pygame
+
 class Field:
     WIDTH = 10
     HEIGHT = 20
@@ -10,3 +12,28 @@ class Field:
 
     def set_block(self, x, y, value):
         self.blocks[y][x] = value
+
+    def draw(self, screen):
+        for y in range(Field.HEIGHT):
+            for x in range(Field.WIDTH):
+                color = int(self.get_block(x, y) * 128 / 6) + 127 if self.get_block(x, y) != None else 0
+                shape = pygame.Rect(x * 10, y * 10, 10, 10)
+                pygame.draw.rect(screen, (color, color, color), shape)
+
+    def try_delete_blocks(self):
+        while True:
+            deletable_row_index = []
+            for i, row in enumerate(self.blocks):
+                if None not in row:
+                    deletable_row_index.append(i)
+
+            if len(deletable_row_index) == 0:
+                return
+
+            # Sort it by descending order to delete rows correctly
+            deletable_row_index = sorted(deletable_row_index, reverse=True)
+            deletable_rows_length = len(deletable_row_index)
+            for i in deletable_row_index:
+                self.blocks.pop(i)
+            for i in range(deletable_rows_length):
+                self.blocks.insert(0, [None] * Field.WIDTH)
