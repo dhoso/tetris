@@ -46,6 +46,8 @@ class MainGame:
     def __try_generate_tetrimino(self):
         self.tetrimino = Tetrimino(self.next_tetrimino_type, self.assets)
         self.next_tetrimino_type = random.randint(0, 6)
+        self.next_tetrimino_for_preview = Tetrimino(self.next_tetrimino_type, self.assets)
+        self.next_tetrimino_for_preview.set_base((1, 1))
 
         is_generatable = self.__determine_generatability(self.field, self.tetrimino)
         if not is_generatable:
@@ -176,5 +178,18 @@ class MainGame:
             dst_size = (surface_on_field.get_width() * scale, surface_on_field.get_height() * scale)
             return pygame.transform.scale(surface_on_field, dst_size)
 
+        def draw_next_tetrimino_preview_surface():
+            preview_block_width = 5
+            preview_block_height = 5
+            width = preview_block_width * block_size
+            height = preview_block_height * block_size
+
+            surface = pygame.Surface((width, height))
+            surface.fill((0, 0, 0))
+            self.next_tetrimino_for_preview.draw(surface)
+            return pygame.transform.scale(surface, (width * scale, height * scale))
+
+
         self.screen.blit(draw_background_surface(), (0, 0))
         self.screen.blit(draw_game_field_surface(), (40, 40))
+        self.screen.blit(draw_next_tetrimino_preview_surface(), (block_size * scale * 14, block_size * scale * 2))
