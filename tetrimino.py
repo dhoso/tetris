@@ -1,9 +1,12 @@
+import pygame
 from tetrimino_pattern import TetriminoPattern
 
 class Tetrimino:
     FIELD_WIDTH = 10
     FIELD_HEIGHT = 20
     ROTATE_NUM = 4
+    RIGHT = 0
+    LEFT = 1
     patterns = TetriminoPattern()
 
     def __init__(self, tetrimino_type):
@@ -29,11 +32,28 @@ class Tetrimino:
 
         return blocks_field
 
+    def move(self, direction):
+        if direction == Tetrimino.RIGHT:
+            self.base = (self.base[0] + 1, self.base[1])
+        elif direction == Tetrimino.LEFT:
+            self.base = (self.base[0] - 1, self.base[1])
+
+    def fall(self):
+        self.base = (self.base[0], self.base[1] + 1)
+
     def rotate(self):
         self.rotation = (self.rotation + 1) % 4
 
     def set_base(self, base):
         self.base = base
+
+    def draw(self, screen):
+        blocks = self.generate_blocks_as_coodinate_array()
+        for block in blocks:
+            color = int(self.tetrimino_type * 128 / 6) + 127
+            x, y = block
+            shape = pygame.Rect(x * 10, y * 10, 10, 10)
+            pygame.draw.rect(screen, (color, color, color), shape)
 
     # Converts one into its position in 2d list
     # Example: [[0, 1], [1, 0]] -> [[None, (0, 1)], [(1, 0), None]]
