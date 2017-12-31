@@ -48,12 +48,12 @@ class Tetrimino:
     def set_base(self, base):
         self.base = base
 
-    def draw(self, screen):
+    def draw(self, surface):
         blocks = self.generate_blocks_as_coodinate_array()
         for block in blocks:
             x, y = block
             image = self.assets['block_imaeg_list'][self.tetrimino_type]
-            screen.blit(image, (x * 10, y * 10))
+            surface.blit(image, (x * 10, y * 10))
 
     # Converts one into its position in 2d list
     # Example: [[0, 1], [1, 0]] -> [[None, (0, 1)], [(1, 0), None]]

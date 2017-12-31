@@ -14,16 +14,16 @@ class Field:
     def set_block(self, x, y, value):
         self.blocks[y][x] = value
 
-    def draw(self, screen):
+    def draw(self, surface):
         for y in range(Field.HEIGHT):
             for x in range(Field.WIDTH):
                 block_type = self.get_block(x, y)
                 if block_type == None:
                     shape = pygame.Rect(x * 10, y * 10, 10, 10)
-                    pygame.draw.rect(screen, (0, 0, 0), shape)
+                    pygame.draw.rect(surface, (0, 0, 0), shape)
                 else:
                     image = self.assets['block_imaeg_list'][block_type]
-                    screen.blit(image, (x * 10, y * 10))
+                    surface.blit(image, (x * 10, y * 10))
 
     def try_delete_blocks(self):
         while True:

@@ -156,5 +156,12 @@ class MainGame:
 
     def __draw(self):
         self.screen.fill((255,255,255))
-        self.field.draw(self.screen)
-        self.tetrimino.draw(self.screen)
+
+        block_size = 10
+        surface_on_field = pygame.Surface((Field.WIDTH * block_size, Field.HEIGHT * block_size))
+        self.field.draw(surface_on_field)
+        self.tetrimino.draw(surface_on_field)
+        scale = 2
+        dst_size = (surface_on_field.get_width() * scale, surface_on_field.get_height() * scale)
+        surface_on_field = pygame.transform.scale(surface_on_field, dst_size)
+        self.screen.blit(surface_on_field, (40, 40))
