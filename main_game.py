@@ -19,7 +19,7 @@ class MainGame:
 
         self.next_tetrimino_type = random.randint(0, 6)
         self.assets = assets
-        self.field = Field()
+        self.field = Field(self.assets)
         self.frames_to_fall = 60
 
     def step_frame(self):
@@ -44,7 +44,7 @@ class MainGame:
         return self.is_gameover
 
     def __try_generate_tetrimino(self):
-        self.tetrimino = Tetrimino(self.next_tetrimino_type)
+        self.tetrimino = Tetrimino(self.next_tetrimino_type, self.assets)
         self.next_tetrimino_type = random.randint(0, 6)
 
         is_generatable = self.__determine_generatability(self.field, self.tetrimino)

@@ -4,8 +4,9 @@ class Field:
     WIDTH = 10
     HEIGHT = 20
 
-    def __init__(self):
+    def __init__(self, assets):
         self.blocks = [[None for i in range(Field.WIDTH)] for j in range(Field.HEIGHT)]
+        self.assets = assets
 
     def get_block(self, x, y):
         return self.blocks[y][x]
@@ -16,9 +17,13 @@ class Field:
     def draw(self, screen):
         for y in range(Field.HEIGHT):
             for x in range(Field.WIDTH):
-                color = int(self.get_block(x, y) * 128 / 6) + 127 if self.get_block(x, y) != None else 0
-                shape = pygame.Rect(x * 10, y * 10, 10, 10)
-                pygame.draw.rect(screen, (color, color, color), shape)
+                block_type = self.get_block(x, y)
+                if block_type == None:
+                    shape = pygame.Rect(x * 10, y * 10, 10, 10)
+                    pygame.draw.rect(screen, (0, 0, 0), shape)
+                else:
+                    image = self.assets['block_imaeg_list'][block_type]
+                    screen.blit(image, (x * 10, y * 10))
 
     def try_delete_blocks(self):
         while True:

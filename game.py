@@ -6,17 +6,21 @@ import random
 from main_game import MainGame
 from tetrimino_pattern import TetriminoPattern
 
+BLOCK_IMAGE_PATH = 'assets/blocks.png'
+
 class Game:
     def __init__(self):
         self.status = constants.STATUS_START_MENU
 
     def run(self):
-        assets = {}
-        assets['tetrimino_pattern'] = TetriminoPattern()
         pygame.init()
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode((400, 480))
         pygame.display.set_caption("Test")
+
+        assets = {}
+        assets['tetrimino_pattern'] = TetriminoPattern()
+        assets['block_imaeg_list'] = load_images()
 
         while (True):
             clock.tick(60)
@@ -41,9 +45,15 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-def get_key_status():
-    if key == pygame.K_UP:
-        print()
-        color += 24
-    elif key == pygame.K_DOWN:
-        color -= 24
+def load_images():
+    block_num = 7
+    block_width = 10
+    block_height = 10
+
+    all_blocks_image = pygame.image.load(BLOCK_IMAGE_PATH).convert()
+    block_image_list = []
+    for i in range(block_num):
+        shape = Rect(0, i * block_height, block_width, block_height)
+        block_image_list.append(all_blocks_image.subsurface(shape))
+
+    return block_image_list

@@ -9,10 +9,11 @@ class Tetrimino:
     LEFT = 1
     patterns = TetriminoPattern()
 
-    def __init__(self, tetrimino_type):
+    def __init__(self, tetrimino_type, assets):
         self.tetrimino_type = tetrimino_type
         self.rotation = 0
         self.base = (3, 0)
+        self.assets = assets
 
     def generate_blocks_as_coodinate_array(self):
         pattern = Tetrimino.patterns.get_pattern(self.tetrimino_type, self.rotation)
@@ -50,10 +51,9 @@ class Tetrimino:
     def draw(self, screen):
         blocks = self.generate_blocks_as_coodinate_array()
         for block in blocks:
-            color = int(self.tetrimino_type * 128 / 6) + 127
             x, y = block
-            shape = pygame.Rect(x * 10, y * 10, 10, 10)
-            pygame.draw.rect(screen, (color, color, color), shape)
+            image = self.assets['block_imaeg_list'][self.tetrimino_type]
+            screen.blit(image, (x * 10, y * 10))
 
     # Converts one into its position in 2d list
     # Example: [[0, 1], [1, 0]] -> [[None, (0, 1)], [(1, 0), None]]
