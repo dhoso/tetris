@@ -155,13 +155,18 @@ class MainGame:
         self.should_generate_tetrimino = True
 
     def __draw(self):
-        self.screen.fill((255,255,255))
-
         block_size = 10
+        scale = 2
+
+        self.screen.fill((255,255,255))
+        background_scaled = pygame.transform.scale(self.assets['background_image'], (block_size * scale, block_size * scale))
+        for x in range(int(self.screen.get_width() / (block_size * scale))):
+            for y in range(int(self.screen.get_height() / (block_size * scale))):
+                self.screen.blit(background_scaled, (x * block_size * scale, y * block_size * scale))
+
         surface_on_field = pygame.Surface((Field.WIDTH * block_size, Field.HEIGHT * block_size))
         self.field.draw(surface_on_field)
         self.tetrimino.draw(surface_on_field)
-        scale = 2
         dst_size = (surface_on_field.get_width() * scale, surface_on_field.get_height() * scale)
         surface_on_field = pygame.transform.scale(surface_on_field, dst_size)
         self.screen.blit(surface_on_field, (40, 40))

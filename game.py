@@ -7,6 +7,7 @@ from main_game import MainGame
 from tetrimino_pattern import TetriminoPattern
 
 BLOCK_IMAGE_PATH = 'assets/blocks.png'
+BACKGROUND_IMAGE_PATH = 'assets/back_ground.png'
 
 class Game:
     def __init__(self):
@@ -20,7 +21,7 @@ class Game:
 
         assets = {}
         assets['tetrimino_pattern'] = TetriminoPattern()
-        assets['block_imaeg_list'] = load_images()
+        assets['block_imaeg_list'], assets['background_image'] = load_images()
 
         while (True):
             clock.tick(60)
@@ -56,4 +57,6 @@ def load_images():
         shape = Rect(0, i * block_height, block_width, block_height)
         block_image_list.append(all_blocks_image.subsurface(shape))
 
-    return block_image_list
+    background_image = pygame.image.load(BACKGROUND_IMAGE_PATH).convert()
+
+    return [block_image_list, background_image]
