@@ -27,11 +27,12 @@ class Game:
                         main_game = MainGame(screen, assets)
 
             elif self.status == constants.STATUS_PLAYING:
-                main_game.run()
-                # key_status = pygame.key.get_pressed()
+                main_game.step_frame()
+                if main_game.is_gameover:
+                    self.status = constants.STATUS_GAMEOVER
 
             elif self.status == constants.STATUS_GAMEOVER:
-                screen.fill((0,0,0))
+                screen.fill((255,255,255))
 
             pygame.display.update()
 
