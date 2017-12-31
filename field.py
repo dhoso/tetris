@@ -3,11 +3,10 @@ class Field:
     HEIGHT = 20
 
     def __init__(self):
-        # FIXME: たぶんこの初期化方法ではまともに動かない。
-        self.blocks = [[None] * Field.WIDTH] * Field.HEGIHT
+        self.blocks = [[None for i in range(Field.WIDTH)] for j in range(Field.HEIGHT)]
 
     def get_block(self, x, y):
-        return self.blocks[x][y]
+        return self.blocks[y][x]
 
     def set_block(self, x, y, value):
-        self.blocks[x][y] = value
+        self.blocks[y][x] = value
