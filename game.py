@@ -5,6 +5,7 @@ import constants
 import random
 from main_game import MainGame
 from tetrimino_pattern import TetriminoPattern
+import util
 
 BLOCK_IMAGE_PATH = 'assets/blocks.png'
 BACKGROUND_IMAGE_PATH = 'assets/back_ground.png'
@@ -53,7 +54,7 @@ class Game:
     def __draw_start_menu(self, screen, assets):
         img_width = assets['background_image'].get_width()
         img_height = assets['background_image'].get_height()
-        bgimg = pygame.transform.scale(assets['background_image'], (img_width * 2, img_height * 2))
+        bgimg = util.scale(assets['background_image'], 2)
 
         scr_width = screen.get_width()
         scr_height = screen.get_height()
@@ -61,9 +62,7 @@ class Game:
             for y in range(int(scr_height / (img_height * 2))):
                 screen.blit(bgimg, (x * img_width * 2, y * img_height * 2))
 
-        img_width = assets['press_any_key_image'].get_width()
-        img_height = assets['press_any_key_image'].get_height()
-        press_ak_img = pygame.transform.scale(assets['press_any_key_image'], (img_width * 2, img_height * 2))
+        press_ak_img =util.scale(assets['press_any_key_image'], 2)
         screen.blit(press_ak_img, (0, 4 * 10 * 2))
 
 def load_images():
