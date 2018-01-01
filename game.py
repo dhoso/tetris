@@ -13,6 +13,7 @@ PRESS_ANY_KEY_IMAGE_PATH = 'assets/press_any_key.png'
 GAMEOVER_IMAGE_PATH = 'assets/gameover.png'
 NUMBERS_IMAGE_PATH = 'assets/numbers.png'
 SCORE_IMAGE_PATH = 'assets/score.png'
+SCORE_BACKGROUND_IMAGE_PATH = 'assets/score_background.png'
 
 class Game:
     def __init__(self):
@@ -83,12 +84,16 @@ def load_images():
     number_image_size = (7, 10)
     for i in range(number_length):
         shape = Rect(0, i * number_image_size[1], number_image_size[0], number_image_size[1])
-        number_image_list.append(numbers_image.subsurface(shape))
+        number_image = numbers_image.subsurface(shape)
+        number_image.set_colorkey((255, 255, 255))
+        number_image_list.append(number_image)
 
     background_image = pygame.image.load(BACKGROUND_IMAGE_PATH).convert()
     press_any_key_image = pygame.image.load(PRESS_ANY_KEY_IMAGE_PATH).convert()
     gameover_image = pygame.image.load(GAMEOVER_IMAGE_PATH).convert()
     score_image = pygame.image.load(SCORE_IMAGE_PATH).convert()
+    score_image.set_colorkey((255, 255, 255))
+    score_background_image = pygame.image.load(SCORE_BACKGROUND_IMAGE_PATH).convert()
 
     assets = {}
     assets['block_imaeg_list'] = block_image_list
@@ -97,5 +102,6 @@ def load_images():
     assets['gameover_image'] = gameover_image
     assets['number_image_list'] = number_image_list
     assets['score_image'] = score_image
+    assets['score_background_image'] = score_background_image
 
     return assets

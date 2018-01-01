@@ -200,11 +200,12 @@ class MainGame:
             score_str = str(score)
             letter_width, letter_height = self.assets['number_image_list'][0].get_size()
             score_width, score_height = self.assets['score_image'].get_size()
-            surface_width = max(len(score_str) * letter_width, score_width)
-            surface_height = letter_height + score_height
+            bg_width, bg_height = self.assets['score_background_image'].get_size()
+            surface_width = bg_width
+            surface_height = bg_height
 
             surface = pygame.Surface((surface_width , surface_height))
-            surface.fill((255, 255, 255))
+            surface.blit(self.assets['score_background_image'], (0, 0))
 
             surface.blit(self.assets['score_image'], (0, 0))
 
@@ -216,8 +217,7 @@ class MainGame:
         self.screen.blit(draw_game_field_surface(), (40, 40))
         self.screen.blit(draw_next_tetrimino_preview_surface(), (block_size * scale * 14, block_size * scale * 2))
         score_surface = util.scale(draw_score_surface(self.score), 2)
-        score_surface.set_colorkey((255, 255, 255))
-        self.screen.blit(score_surface, (block_size * scale * 14, block_size * scale * 12))
+        self.screen.blit(score_surface, (block_size * scale * 13, block_size * scale * 12))
 
     def __gameover(self):
         for event in pygame.event.get():
