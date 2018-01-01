@@ -22,8 +22,10 @@ class MainGame:
         self.next_tetrimino_type = random.randint(0, 6)
         self.assets = assets
         self.field = Field(self.assets)
-        self.frames_to_fall = 60
+        self.initial_frames_to_fall = 60
+        self.frames_to_fall = self.initial_frames_to_fall
         self.score = 0
+        self.fixing_block_count = 0
 
     def step_frame(self):
         if self.is_gameover:
@@ -150,7 +152,7 @@ class MainGame:
             tetrimino.fall()
         else:
             self.__fix_blocks(tetrimino, field)
-        self.frames_to_fall = 60
+        self.frames_to_fall = self.initial_frames_to_fall
 
     def __fix_blocks(self, tetrimino, field):
         tetrimino_blocks = tetrimino.generate_blocks_as_coodinate_array()
@@ -160,6 +162,9 @@ class MainGame:
             field.set_block(block[0], block[1], block_color)
 
         self.score += field.try_delete_blocks()
+        self.fixing_block_count += 1
+        if self.fixing_block_count % (600 / self.initial_frames_to_fall) == 0:
+            self.initial_frames_to_fall = max(int(self.initial_frames_to_fall * 3 / 4), 1)
 
         self.should_generate_tetrimino = True
 
