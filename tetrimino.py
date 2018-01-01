@@ -55,6 +55,12 @@ class Tetrimino:
             image = self.assets['block_imaeg_list'][self.tetrimino_type]
             surface.blit(image, (x * 10, y * 10))
 
+    def copy(self):
+        tetrimino = Tetrimino(self.tetrimino_type, self.assets)
+        tetrimino.rotation = self.rotation
+        tetrimino.base = self.base
+        return tetrimino
+
     # Converts one into its position in 2d list
     # Example: [[0, 1], [1, 0]] -> [[None, (0, 1)], [(1, 0), None]]
     def __convert_one_into_position(self, li):

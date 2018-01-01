@@ -1,5 +1,4 @@
 import random
-import copy
 import pygame
 from pygame.locals import *
 from field import Field
@@ -99,7 +98,7 @@ class MainGame:
 
     def __try_rotate(self, tetrimino):
         def determine_rotatability(tetrimino, field):
-            ghost_tetrimino = copy.deepcopy(tetrimino)
+            ghost_tetrimino = tetrimino.copy()
             ghost_tetrimino.rotate()
             blocks = ghost_tetrimino.generate_blocks_as_coodinate_array()
             for block in blocks:
@@ -117,7 +116,7 @@ class MainGame:
 
     def __try_move_tetrimino(self, tetrimino, direction):
         def determine_movabimitly(tetrimino, field, direction):
-            ghost_tetrimino = copy.deepcopy(tetrimino)
+            ghost_tetrimino = tetrimino.copy()
             ghost_tetrimino.move(direction)
             blocks = ghost_tetrimino.generate_blocks_as_coodinate_array()
             for block in blocks:
@@ -135,7 +134,7 @@ class MainGame:
 
     def __try_drop_tetrimino(self, tetrimino, field):
         def determin_droppability(tetrimino, field):
-            ghost_tetrimino = copy.deepcopy(tetrimino)
+            ghost_tetrimino = tetrimino.copy()
             ghost_tetrimino.fall()
             blocks = ghost_tetrimino.generate_blocks_as_coodinate_array()
             for block in blocks:
