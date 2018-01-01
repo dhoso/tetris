@@ -26,19 +26,21 @@ class Field:
                     surface.blit(image, (x * 10, y * 10))
 
     def try_delete_blocks(self):
-        while True:
-            deletable_row_index = []
-            for i, row in enumerate(self.blocks):
-                if None not in row:
-                    deletable_row_index.append(i)
+        deletable_row_index = []
+        for i, row in enumerate(self.blocks):
+            if None not in row:
+                deletable_row_index.append(i)
 
-            if len(deletable_row_index) == 0:
-                return
+        # Sort it by descending order to delete rows correctly
+        deletable_row_index = sorted(deletable_row_index, reverse=True)
+        deletable_rows_length = len(deletable_row_index)
+        for i in deletable_row_index:
+            self.blocks.pop(i)
+        for i in range(deletable_rows_length):
+            self.blocks.insert(0, [None] * Field.WIDTH)
 
-            # Sort it by descending order to delete rows correctly
-            deletable_row_index = sorted(deletable_row_index, reverse=True)
-            deletable_rows_length = len(deletable_row_index)
-            for i in deletable_row_index:
-                self.blocks.pop(i)
-            for i in range(deletable_rows_length):
-                self.blocks.insert(0, [None] * Field.WIDTH)
+        if deletable_rows_length == 0:
+            score = 0
+        else:
+            score = (deletable_rows_length + 1) ** 2
+        return score

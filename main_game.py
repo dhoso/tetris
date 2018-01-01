@@ -23,6 +23,7 @@ class MainGame:
         self.assets = assets
         self.field = Field(self.assets)
         self.frames_to_fall = 60
+        self.score = 0
 
     def step_frame(self):
         if self.is_gameover:
@@ -158,7 +159,7 @@ class MainGame:
         for block in tetrimino_blocks:
             field.set_block(block[0], block[1], block_color)
 
-        field.try_delete_blocks()
+        self.score += field.try_delete_blocks()
 
         self.should_generate_tetrimino = True
 
@@ -195,10 +196,28 @@ class MainGame:
             self.next_tetrimino_for_preview.draw(surface)
             return pygame.transform.scale(surface, (width * scale, height * scale))
 
+        def draw_score_surface(score):
+            score_str = str(score)
+            letter_width, letter_height = self.assets['number_image_list'][0].get_size()
+            score_width, score_height = self.assets['score_image'].get_size()
+            surface_width = max(len(score_str) * letter_width, score_width)
+            surface_height = letter_height + score_height
+
+            surface = pygame.Surface((surface_width , surface_height))
+            surface.fill((255, 255, 255))
+
+            surface.blit(self.assets['score_image'], (0, 0))
+
+            for i, letter in enumerate(score_str):
+                surface.blit(self.assets['number_image_list'][int(letter)], (i * letter_width, score_height))
+            return surface
 
         self.screen.blit(draw_background_surface(), (0, 0))
         self.screen.blit(draw_game_field_surface(), (40, 40))
         self.screen.blit(draw_next_tetrimino_preview_surface(), (block_size * scale * 14, block_size * scale * 2))
+        score_surface = util.scale(draw_score_surface(self.score), 2)
+        score_surface.set_colorkey((255, 255, 255))
+        self.screen.blit(score_surface, (block_size * scale * 14, block_size * scale * 12))
 
     def __gameover(self):
         for event in pygame.event.get():
