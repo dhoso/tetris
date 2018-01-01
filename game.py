@@ -10,6 +10,7 @@ import util
 BLOCK_IMAGE_PATH = 'assets/blocks.png'
 BACKGROUND_IMAGE_PATH = 'assets/back_ground.png'
 PRESS_ANY_KEY_IMAGE_PATH = 'assets/press_any_key.png'
+GAMEOVER_IMAGE_PATH = 'assets/gameover.png'
 
 class Game:
     def __init__(self):
@@ -23,7 +24,7 @@ class Game:
 
         assets = {}
         assets['tetrimino_pattern'] = TetriminoPattern()
-        assets['block_imaeg_list'], assets['background_image'], assets['press_any_key_image'] = load_images()
+        assets['block_imaeg_list'], assets['background_image'], assets['press_any_key_image'], assets['gameover_image'] = load_images()
 
         while (True):
             clock.tick(60)
@@ -38,11 +39,9 @@ class Game:
 
             elif self.status == constants.STATUS_PLAYING:
                 main_game.step_frame()
-                if main_game.is_gameover:
-                    self.status = constants.STATUS_GAMEOVER
-
-            elif self.status == constants.STATUS_GAMEOVER:
-                screen.fill((255,255,255))
+                if main_game.is_finished:
+                    del main_game
+                    self.status = constants.STATUS_START_MENU
 
             pygame.display.update()
 
@@ -78,5 +77,6 @@ def load_images():
 
     background_image = pygame.image.load(BACKGROUND_IMAGE_PATH).convert()
     press_any_key_image = pygame.image.load(PRESS_ANY_KEY_IMAGE_PATH).convert()
+    gameover_image = pygame.image.load(GAMEOVER_IMAGE_PATH).convert()
 
-    return [block_image_list, background_image, press_any_key_image]
+    return [block_image_list, background_image, press_any_key_image, gameover_image]

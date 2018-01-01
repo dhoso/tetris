@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 from field import Field
 from tetrimino import Tetrimino
+import util
 
 class MainGame:
     KEY_NOT_PRESSED = 0
@@ -14,6 +15,7 @@ class MainGame:
         self.should_generate_tetrimino = True
         self.should_decide_deleting_blocks = False
         self.is_gameover = False
+        self.is_finished = False
         self.prior_key_states = [MainGame.KEY_NOT_PRESSED] * 323
         self.screen = screen
 
@@ -23,6 +25,10 @@ class MainGame:
         self.frames_to_fall = 60
 
     def step_frame(self):
+        if self.is_gameover:
+            self.__gameover()
+            return
+
         if self.should_generate_tetrimino:
             succeeded_tetrimino = self.__try_generate_tetrimino()
             if not succeeded_tetrimino:
@@ -193,3 +199,10 @@ class MainGame:
         self.screen.blit(draw_background_surface(), (0, 0))
         self.screen.blit(draw_game_field_surface(), (40, 40))
         self.screen.blit(draw_next_tetrimino_preview_surface(), (block_size * scale * 14, block_size * scale * 2))
+
+    def __gameover(self):
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                self.is_finished = True
+        self.__draw()
+        self.screen.blit(util.scale(self.assets['gameover_image'], 2), (0, 60))
