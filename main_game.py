@@ -227,5 +227,8 @@ class MainGame:
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 self.is_finished = True
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
         self.__draw()
         self.screen.blit(util.scale(self.assets['gameover_image'], 2), (0, 60))
